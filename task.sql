@@ -55,14 +55,35 @@ SELECT * FROM employees
 
 
 -- Query-2: Retrieve the name of employees using a limit of 2, starting from the 3rd employee.
-SELECT * FROM employees
+SELECT (employee_name) FROM employees
     LIMIT 2 OFFSET 2;
 
 
 -- Query-3: Calculate and display the average age of all employees
-SELECT avg(age) FROM employees
+SELECT avg(age) FROM employees;
 
 
 -- Query-4: Retrieve the names of employees whose email addresses contain 'example.com', 'example.net', or 'google.com'.
 SELECT (employee_name) FROM employees
-    WHERE email LIKE '%example.com' OR email LIKE '%google.com' OR email LIKE 'example.net ';
+    WHERE email LIKE '%example.com' OR email LIKE '%google.com' OR email LIKE '%example.net ';
+
+
+--  Query-5: Retrieve the names of all employees who belong to the department titled 'Engineering'.
+SELECT (employee_name), (department_name) FROM employees
+    JOIN departments USING (department_id)
+    WHERE department_name = 'Engineering';
+
+
+-- Query-6: Update the status of the employee with the highest salary to 'Promoted'
+-- Note: You can use a subquery to identify the employee with the highest salary,
+SELECT max(salary) FROM employees;
+
+UPDATE employees 
+    SET status = 'Promoted'
+    WHERE salary = (SELECT max(salary) FROM employees);
+
+
+-- Query-7: Retrieve the department name and the average salary of employees in each department.
+SELECT (department_name), avg(salary) FROM employees
+    JOIN departments USING (department_id)
+    GROUP BY department_name;
